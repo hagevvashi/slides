@@ -1,0 +1,9 @@
+{
+  "name": "slides",
+  "version": "0.0.0",
+  "description": "azawakh's slide repository",
+  "main": "index.js",
+  "repository": "https://github.com/azawakh/slides",
+  "author": "azawakh <azawakhh@gmail.com>",
+  "license": "MIT"
+}
