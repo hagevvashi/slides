@@ -1,0 +1,90 @@
+@import './variable';
+
+:root {
+  --icon-size: 120px;
+}
+
+.profile {
+  & > .profile-avatar {
+    border-radius: 50%;
+    height: var(--icon-size);
+    margin: 0 0 13px;
+    width: var(--icon-size);
+  }
+
+  & > .profile-name {
+    margin: 0 0 12px 0;
+  }
+
+  & > h5 {
+    & > i {
+      margin-right: 4px;
+    }
+  }
+}
+
+.sns-list {
+  display: flex;
+  justify-content: center;
+
+  & > a {
+    border: none;
+
+    &:not(:first-child) {
+      padding-left: 16px;
+    }
+  }
+}
+
+.slide.profile {
+  background: var(--color-main);
+}
+
+h4 {
+  text-transform: uppercase;
+  font-size: .8em;
+  line-height: 1.8em;
+  letter-spacing: .3em;
+  margin: 1em 0;
+}
+
+blockquote {
+  position: relative;
+  padding: 10px 15px 10px 50px;
+  box-sizing: border-box;
+  font-style: italic;
+  background: #efefef;
+  color: var(--color-gray);
+  width: fit-content;
+  margin: 0 auto;
+
+  & :before {
+    display: inline-block;
+    position: absolute;
+    top: 10px;
+    left: -3px;
+    content: "“";
+    font-family: sans-serif;
+    color: var(--color-gray);
+    font-size: 90px;
+    line-height: 1;
+  }
+
+  & p {
+    padding: 0;
+    margin: 10px 0;
+    line-height: 1.7;
+    text-align: left;
+  }
+
+  & p:last-child {
+    margin: 0 0 1.2rem 0;
+  }
+
+  & cite {
+    display: block;
+    text-align: right;
+    color: #888888;
+    font-size: 0.9em;
+  }
+}
