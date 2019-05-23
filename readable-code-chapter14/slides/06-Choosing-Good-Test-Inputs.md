@@ -210,6 +210,10 @@ We've simplified the test values without making them any less effective.
 
 Each test should push your code in a certain direction, trying to find a particular bug.
 
+<!-- note
+複数のテストで別々の方向からバグを見つけられるようにする
+-->
+
 ---
 
 For example, here are four tests for SortAndFilterDocs():

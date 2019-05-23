@@ -43,7 +43,7 @@ BOOST_REQUIRE_EQUAL(output, expected_output)
 
 <br />
 
-```console
+```bash
 test.cc(37): fatal error in "CheckScoresBeforeAfter": critical check
     output == expected_output failed ["1, 3, 4" != "4, 3, 1"]
 ```
@@ -64,7 +64,7 @@ which is much more helpful.
 
 > https://github.com/power-assert-js/power-assert
 
-```console
+```bash
   $ $(npm bin)/mocha --require intelli-espower-loader path/to/test/mocha_node.js
 
 
@@ -178,7 +178,7 @@ For instance, it would be useful to see the original input that triggered this f
 
 <br />
 
-```console
+```bash
 CheckScoresBeforeAfter() failed,
   Input:           "-5, 1, 4, -99998.7, 3"
   Expected Output: "4, 3, 1"

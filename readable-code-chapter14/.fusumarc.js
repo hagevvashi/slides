@@ -8,7 +8,7 @@ module.exports = {
   },
   slide: {
     code: {
-      languages: [ 'javascript', 'cpp', 'console' ]
+      languages: [ 'cpp', 'bash' ]
     }
   },
   extends: {
