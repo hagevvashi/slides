@@ -3,8 +3,12 @@
   --color-js: #f5da55;
   --color-js-transparent: rgba(245,218,85,0.4);
   --color-node: rgba(67,133,61,0.4);
+  --color-red: rgba(235,50,35,1);
+  --color-red-transparent: rgba(235,50,35,0.4);
   --color-orange: #ff874d;
   --color-orange-transparent: rgba(255,135,77,0.4);
+  --color-yellow: rgba(243,173,61,1);
+  --color-yellow-transparent: rgba(243,173,61,0.4);
   --color-white: #f5f5f5;
   --color-gray: rgba(183,184,183,1);
   --color-gray-transparent: rgba(183,184,183,0.4);

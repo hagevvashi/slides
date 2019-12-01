@@ -11,7 +11,7 @@ Test code is typically organized into functions-one for each method and/or situa
 -->
 ---
 
-For instance, the code testing SortAndFilterDocs() was inside a function named Test1():
+For instance, the code testing `SortAndFilterDocs()` was inside a function named `Test1()`:
 
 
 ```cpp
@@ -58,7 +58,7 @@ Test_プレフィックスつけるっていうやつ
 
 ---
 
-For instance, instead of naming it Test1(), we can use the Test_<FunctionName>() format:
+For instance, instead of naming it `Test1()`, we can use the `Test_<FunctionName>()` format:
 
 ```cpp
 void Test_SortAndFilterDocs() {
@@ -76,7 +76,7 @@ Depending on how sophisticated this test is, you might consider a separate test 
 
 ---
 
-You could use the Test_<FunctionName>_<Situation>() format:
+You could use the `Test_<FunctionName>_<Situation>()` format:
 
 ```cpp
 void Test_SortAndFilterDocs_BasicSorting() {
@@ -98,7 +98,7 @@ void Test_SortAndFilterDocs_NegativeValues() {
 
 * not called throughout your codebase
 * effectively acting like a comment
-<li style="color: var(--color-js);">
+<li style={{color: "var(--color-js)"}}>
 most testing frameworks will print out the name of the function where the assertion failed
   <ul><li>so a descriptive name is especially helpful</li></ul>
 </li>
@@ -175,7 +175,7 @@ https://www.slideshare.net/takafumionaka/rspec-83693226
 
 <!-- classes: reference -->
 
-<img src="../images/tdd.jpg">
+<img src="../images/tdd.jpg" />
 
 ---
 

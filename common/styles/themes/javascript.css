@@ -32,6 +32,11 @@ a {
   background: var(--color-orange-transparent);
 }
 
+.slide.hiring {
+  background: rgba(255,255,255,1);
+  color: var(--color-black);
+}
+
 .slide.end {
   background: var(--color-js-transparent);
 }
