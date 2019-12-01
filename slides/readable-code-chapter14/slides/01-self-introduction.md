@@ -10,7 +10,7 @@
   <h4 class="profile-name">Ota Naoto</h4>
   <div class="sns-list">
     <div class="sns-list">
-      <a href="https://twitter.com/azawakh_g" target="_blank">
+      <a href="https://twitter.com/azawakh_d" target="_blank">
         <i class="fab fa-twitter"></i>
       </a>
       <a href="https://github.com/azawakh" target="_blank">
