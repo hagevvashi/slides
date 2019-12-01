@@ -64,7 +64,7 @@ Test-friendly designs often lead naturally to well-organized code, with separate
 ---
 <!-- classes: reference -->
 
-<img src="../images/tdd.jpg">
+<img src="../images/tdd.jpg" />
 
 ---
 
@@ -185,7 +185,7 @@ Table 14-1 shows some typical testing and design problems.
 | Characteristic | Testability problem | Design problem |
 | --- | --- | --- |
 | Use of global variables | All the global state needs to reset for every test (otherwise, different tests can interfere with each other). | Hard to understand which functions have what side effects. Can't think about each function in isolation; need to consider the whole program to understand if everything works. |
-| Code depends on a lot of external components | <span style="color: var(--color-js)">It's harder to write any tests because there's so much scaffolding to set up first. Tests are less fun to write, so people avoid writing tests.</span> | System is more likely to fail when one of the dependencies fails. It's harder to understand what impact any given change might make. It's harder to refactor classes. System has more failure modes and recovery paths to think about. |
+| Code depends on a lot of external components | <span style={{color: "var(--color-js)"}}>It's harder to write any tests because there's so much scaffolding to set up first. Tests are less fun to write, so people avoid writing tests.</span> | System is more likely to fail when one of the dependencies fails. It's harder to understand what impact any given change might make. It's harder to refactor classes. System has more failure modes and recovery paths to think about. |
 | Code has nondeterministic behavior | Tests are flaky and unreliable. Tests that occasionally fail end up being ignored. | The program is more likely to have race conditions or other nonreproducible bugs. The program is harder to reason about. Bugs in production are very difficult to track down and fix. |
 
 <!-- note
@@ -207,7 +207,7 @@ Table 14-2 lists some beneficial testing and design characteristics.
 
 | Characteristic | Testability benefit | Design benefit |
 | --- | --- | --- |
-| <span style="color: var(--color-js);">Classes have little or no internal state</span> | Tests are easier to write because there is less setup needed to test a method and less hidden state to inspect. | Classes with less state are simpler and easier to understand. |
+| <span style={{color: "var(--color-js)"}}>Classes have little or no internal state</span> | Tests are easier to write because there is less setup needed to test a method and less hidden state to inspect. | Classes with less state are simpler and easier to understand. |
 | Classes/functions only do one thing | Fewer test cases are required to fully test it. | Smaller/simpler components are more modular, and the system is generally more decoupled. |
 | Classes depend on few other classes;high decoupling | Each class can be tested independently(much easier than testing multiple classes at once). | System can be developed in parallel. Classes can be easily modified or removed without disrupting the rest of the system. |
 | Functions have simple, well-defined interfaces | There are well-defined behaviors to test for. Simple interfaces take less work to test. | Interfaces are easier for coders to learn and are more likely to be reused. |

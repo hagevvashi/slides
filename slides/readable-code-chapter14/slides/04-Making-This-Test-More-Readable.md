@@ -17,7 +17,7 @@ The examples below are not about what this test is doing at a high level
 
 <br />
 
-* setting up a vector<ScoredDocument>
+* setting up a `vector<ScoredDocument>`
 * url, score, and docs[], which are just details about how the underlying C++ objects are set up
 
 ---
@@ -58,7 +58,7 @@ there are still unimportant details in our face
 
 ---
 
-<div class="aligncenter" style="width: 50%;">
+<div class="aligncenter" style={{width: '50%'}}>
 
 #### for instance
 
@@ -148,7 +148,7 @@ AfterSortAndFilterDocs(), the remaining documents should have scores of [4, 3, 1
 
 ---
 
-As you can see, nowhere in that description did we mention a vector<ScoredDocument>.
+As you can see, nowhere in that description did we mention a `vector<ScoredDocument>`.
 
 <!-- note
 見て分かる通り、vectorについては何も言ってない
@@ -250,7 +250,7 @@ void CheckScoresBeforeAfter(string input, string expected_output) {
 
 ---
 
-#### And for completeness, here are the helper functions that convert between string and vector<ScoredDocument>:
+#### And for completeness, here are the helper functions that convert between string and `vector<ScoredDocument>`:
 
 ```cpp
 vector<ScoredDocument> ScoredDocsFromString(string scores) {

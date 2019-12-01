@@ -192,12 +192,12 @@ We've simplified the test values without making them any less effective.
 
 ---
 
-<div style="display: flex;width: fit-content; margin: 0 auto;">
+<div style={{display: "flex", width: "fit-content", margin: "0 auto"}}>
   <div>
     <h4>to construct a single "perfect" input</h4>
     <p>to thoroughly exercise your code</p>
   </div>
-  <div style="display: flex;flex-direction: column;justify-content: center;margin: 0 20px;"><p><</p></div>
+  <div style={{display: "flex", flexDirection: "column", justifyContent: "center", margin: "0 20px"}}><p>&lt;</p></div>
   <div>
     <h4>to write multiple smaller tests</h4>
     <p>it's often easier, more effective, and more readable</p>

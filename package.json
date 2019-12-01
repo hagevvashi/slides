@@ -6,8 +6,30 @@
   "repository": "https://github.com/azawakh/slides",
   "author": "azawakh <azawakhh@gmail.com>",
   "license": "MIT",
+  "config": {
+    "name": "slides/readable-code-chapter14"
+  },
+  "scripts": {
+    "pdf": "yarn build && node scripts/pdf.js $npm_package_config_name",
+    "create": "node scripts/init.js $npm_package_config_name",
+    "start": "fusuma start -d $npm_package_config_name",
+    "build": "fusuma build -d $npm_package_config_name",
+    "deploy": "yarn build && node scripts/deploy.js $npm_package_config_name",
+    "fmt": "prettier --write **/*.{js,json,css,md}",
+    "precommit": "pretty-quick --staged"
+  },
   "devDependencies": {
-    "@fortawesome/fontawesome-free": "^5.8.2",
-    "fusuma": "^1.1.0"
+    "gh-pages": "^1.1.0",
+    "husky": "^0.14.3",
+    "prettier": "^1.12.1",
+    "pretty-quick": "^1.4.1"
+  },
+  "dependencies": {
+    "@babel/core": "^7.7.4",
+    "@fortawesome/fontawesome-free": "^5.11.2",
+    "fs-extra": "^6.0.1",
+    "fusuma": "^1.15.0",
+    "remark-parse": "^6.0.3",
+    "rollup": "^1.27.6"
   }
 }
