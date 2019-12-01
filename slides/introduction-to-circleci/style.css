@@ -1,0 +1,66 @@
+@import '../../common/styles/themes/javascript';
+@import '@fortawesome/fontawesome-free/css/fontawesome.min.css';
+@import '@fortawesome/fontawesome-free/css/brands.min.css';
+@import '@fortawesome/fontawesome-free/css/solid.min.css';
+
+img {
+  margin: 1rem auto;
+  max-height: 69rem;
+  max-width: 90rem;
+}
+
+iframe {
+  height: 80rem;
+}
+
+.outline {
+  & ol {
+    margin: 1em auto 0;
+  }
+
+  & li {
+    margin: 0.56em 0;
+  }
+}
+
+.what-is-circleci {
+  & p {
+    margin: 2rem 0;
+  }
+  & ul {
+    display: flex;
+
+    & li {
+      margin: 0 1rem;
+      list-style: none;
+    }
+  }
+  & img {
+    border-radius: 21%;
+    background: #F5F5F5;
+    width: 26rem;
+  }
+}
+
+.what-is-storybook {
+  & p {
+    margin: 2rem 0;
+  }
+}
+
+
+.storybook-artifacts {
+  & ol {
+    margin: 1em auto 0;
+  }
+
+  & li {
+    margin: 0.56em 0;
+  }
+}
+
+.conclusion {
+  & img {
+    max-height: 50rem;
+  }
+}

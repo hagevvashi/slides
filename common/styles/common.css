@@ -16,10 +16,12 @@ body {
 
 li {
   font-size: 3rem;
+  margin: 1rem 0;
 }
 
 p {
   font-size: 3rem;
+  margin: 1rem 0;
 }
 
 h2 {
@@ -32,7 +34,7 @@ h4 {
   font-size: 3.6rem;
   line-height: 1.8em;
   letter-spacing: .3em;
-  margin: 1em 0;
+  margin: 1rem 0;
 }
 
 blockquote {
@@ -94,6 +96,9 @@ blockquote {
       margin-right: 4px;
     }
   }
+  & a {
+    color: currentColor
+  }
 }
 
 .sns-list {
@@ -102,7 +107,8 @@ blockquote {
 
   & > a {
     border: none;
-
+    color: currentColor;
+    font-size: 3rem;
     &:not(:first-child) {
       padding-left: 16px;
     }

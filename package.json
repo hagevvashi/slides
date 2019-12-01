@@ -7,7 +7,7 @@
   "author": "azawakh <azawakhh@gmail.com>",
   "license": "MIT",
   "config": {
-    "name": "slides/readable-code-chapter14"
+    "name": "slides/introduction-to-circleci"
   },
   "scripts": {
     "pdf": "yarn build && node scripts/pdf.js $npm_package_config_name",
