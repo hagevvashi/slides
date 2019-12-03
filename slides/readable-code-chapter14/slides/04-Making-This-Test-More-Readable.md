@@ -202,17 +202,18 @@ This is not uncommon, though. The essence of most tests boils down to
 ---
 
 > Notice that CheckScoresBeforeAfter() takes two string arguments that describe the array of scores.
-<br />
-In later versions of C++, you can pass in array literals like this:
-<br />
+
+> In later versions of C++, you can pass in array literals like this:
+
 ```cpp
 CheckScoresBeforeAfter({-5, 1, 4, -99998.7, 3}, {4, 3, 1});
 ```
-Because we couldn't do this at the time, we put the scores inside a string, separated by commas.For this approach to work, CheckScoresBeforeAfter() is going to have to parse those string arguments.
-<br />
-In general, defining a custom minilanguage can be a powerful way to express a lot of information in a small amount of space.Other examples include printf() and regular expression libraries.
-<br />
-In this case, writing some helper functions to parse a comma-separated list of numbers shouldn't be too hard.
+
+> Because we couldn't do this at the time, we put the scores inside a string, separated by commas.For this approach to work, CheckScoresBeforeAfter() is going to have to parse those string arguments.
+
+> In general, defining a custom minilanguage can be a powerful way to express a lot of information in a small amount of space.Other examples include printf() and regular expression libraries.
+
+> In this case, writing some helper functions to parse a comma-separated list of numbers shouldn't be too hard.
 
 <!-- note
 今は配列リテラルを渡せる
