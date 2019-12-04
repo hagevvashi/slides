@@ -24,6 +24,7 @@
     <div style={{margin:"7rem 0"}}>
       <p>WEB、アプリ、フロントエンドエンジニアなど様々な職種でエンジニア募集中です！</p>
       <p>カジュアル面談（オフィス訪問）歓迎です！</p>
+      <p><a href="https://www.wantedly.com/projects/254221">WANTEDLYはこちら！</a></p>
     </div>
   </div>
 </div>
