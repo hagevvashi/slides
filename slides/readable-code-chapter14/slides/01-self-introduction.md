@@ -1,7 +1,7 @@
 <!-- classes: profile -->
 <section>
 
-## 😋 ME 😙
+## &#x1f4aa; ME &#x1f4aa;
 
 <br />
 
