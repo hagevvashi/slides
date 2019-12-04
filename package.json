@@ -7,7 +7,7 @@
   "author": "azawakh <azawakhh@gmail.com>",
   "license": "MIT",
   "config": {
-    "name": "slides/introduction-to-circleci"
+    "name": "slides/story-about-twsh"
   },
   "scripts": {
     "pdf": "yarn build && node scripts/pdf.js $npm_package_config_name",

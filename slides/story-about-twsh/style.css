@@ -1,0 +1,44 @@
+@import '../../common/styles/themes/javascript';
+@import '@fortawesome/fontawesome-free/css/fontawesome.min.css';
+@import '@fortawesome/fontawesome-free/css/brands.min.css';
+@import '@fortawesome/fontawesome-free/css/solid.min.css';
+
+img {
+  margin: 1rem auto;
+  max-height: 69rem;
+  max-width: 90rem;
+}
+
+iframe {
+  height: 80rem;
+}
+
+.outline {
+  & ol {
+    margin: 1em auto 0;
+  }
+
+  & li {
+    margin: 0.56em 0;
+  }
+}
+
+.do-you-know-twsh {
+  & img {
+    background: var(--color-white)
+  }
+}
+
+.personal-programming {
+  & ol {
+    margin: 1em auto 0;
+    & li {
+      margin: 0.56em 0;
+      & ul {
+        & li {
+          margin-left: 1em;
+        }
+      }
+    }
+  }
+}
