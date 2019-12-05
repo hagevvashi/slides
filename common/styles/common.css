@@ -91,6 +91,12 @@ blockquote {
     margin: 0 0 12px 0;
   }
 
+  & .profile-info {
+    & img {
+      max-height: 4rem;
+    }
+  }
+
   & > h5 {
     & > i {
       margin-right: 4px;

@@ -21,6 +21,7 @@
   <div class="profile-info">
     <p>A frontend engineer</p>
     <p>Kakaku.com, Inc</p>
+    <p><img src="https://tblg.k-img.com/images/restaurant/logo/logo_tabelog_white.svg?1547477433" alt="Tabelog" /></p>
   </div>
 </div>
 
