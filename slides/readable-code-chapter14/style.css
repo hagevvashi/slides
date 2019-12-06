@@ -1,0 +1,12 @@
+@import '../../common/styles/themes/javascript';
+@import '@fortawesome/fontawesome-free/css/fontawesome.min.css';
+@import '@fortawesome/fontawesome-free/css/brands.min.css';
+@import '@fortawesome/fontawesome-free/css/solid.min.css';
+
+.logo {
+  width: 150px;
+}
+
+td {
+  padding-left: 12px;
+}

@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Sans');
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans+JP');
+@import '../variable';
+@import '../mixins';
+@import '../common';
+
+@font-face {
+  font-family: Stratum;
+  src: url('../../fonts/StratumNo1.ttf');
+}
+
+#webslides {
+  font-family: Stratum, 'Noto Sans JP', 'Helvetica Neue For Number', 'Hiragino Kaku Gothic ProN',
+    'メイリオ', Arial, sans-serif;
+  background: var(--color-black);
+  color: #ddd;
+}
+
+a {
+  color: var(--color-anker);
+}
+
+.slide {
+  background: var(--color-gray-transparent);
+}
+
+.slide.title {
+  background: var(--color-node);
+}
+
+.slide.reference {
+  background: var(--color-orange-transparent);
+}
+
+.slide.hiring {
+  background: rgba(255,255,255,1);
+  color: var(--color-black);
+}
+
+.slide.end {
+  background: var(--color-js-transparent);
+}
+
+.ref-link:hover {
+  color: var(--color-js);
+}
+
+.language-transparent {
+  background: transparent !important;
+
+  & > code {
+    color: #fff;
+    text-shadow: none;
+  }
+}
+
+h1, h2 {
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  font-weight: 400;
+  margin: .17em 0;
+  position: relative;
+}
+
+h1 {
+  line-height: 1.4em;
+  padding: 1em;
+  border: 1px solid #ddd;
+  border-left-width: 0;
+  border-right-width: 0;
+  min-width: 8em;
+}
+
+h1 {
+    font-size: 2em;
+}
+
+h2 {
+  color: var(--color-js);
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 800;
+  letter-spacing: 0.25rem;
+  text-transform: none;
+}
+
+h3 {
+  border-bottom: 0.3rem solid;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0.25rem;
+  padding: 0 1.2em 0.5em;
+  margin: 0 0 2rem;
+}
+
+strong {
+  color: var(--color-orange);
+  font-size: 2.1rem;
+  font-weight: bold;
+}
+
+code {
+  background: rgba(122, 122, 122, 0.6);
+  font-size: 20px;
+}
+
+pre code {
+  font-size: inherit;
+}
