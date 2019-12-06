@@ -10,19 +10,18 @@
     "name": "slides/story-about-twsh"
   },
   "scripts": {
-    "pdf": "yarn build && node scripts/pdf.js $npm_package_config_name",
-    "create": "node scripts/init.js $npm_package_config_name",
     "start": "fusuma start -d $npm_package_config_name",
     "build": "fusuma build -d $npm_package_config_name",
-    "deploy": "yarn build && node scripts/deploy.js $npm_package_config_name",
-    "fmt": "prettier --write **/*.{js,json,css,md}",
-    "precommit": "pretty-quick --staged"
+    "deploy": "yarn build && tsc -p . && chmod a+x scripts/deploy.js && scripts/deploy.js $npm_package_config_name"
   },
   "devDependencies": {
+    "@types/gh-pages": "^2.0.1",
+    "@types/node": "^12.12.14",
     "gh-pages": "^1.1.0",
     "husky": "^0.14.3",
     "prettier": "^1.12.1",
-    "pretty-quick": "^1.4.1"
+    "pretty-quick": "^1.4.1",
+    "typescript": "^3.7.3"
   },
   "dependencies": {
     "@babel/core": "^7.7.4",
