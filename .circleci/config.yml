@@ -76,13 +76,15 @@ workflows:
   build_and_deploy:
     jobs:
       - setup
-      - script_type_check
+      - script_type_check:
+          requires:
+            - setup
       - build:
           filters:
             branches:
               only: master
           requires:
-            - setup
+            - script_type_check
       - deploy:
           filters:
             branches:

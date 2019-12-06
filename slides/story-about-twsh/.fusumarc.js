@@ -4,7 +4,7 @@ module.exports = {
     siteName: "azawakh's slide",
     repositoryUrl: "https://github.com/azawakh/slides",
     sns: ["twitter"],
-    name: "Introduction to CircleCI"
+    name: "A Story About twsh"
   },
   slide: {
     code: {
