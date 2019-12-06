@@ -10,9 +10,11 @@
     "name": "slides/story-about-twsh"
   },
   "scripts": {
+    "typecheck": "tsc -p . --noEmit",
     "start": "fusuma start -d $npm_package_config_name",
     "build": "fusuma build -d $npm_package_config_name",
-    "deploy": "yarn build && tsc -p . && chmod a+x scripts/deploy.js && scripts/deploy.js $npm_package_config_name"
+    "build:script": "tsc -p . && chmod a+x scripts/deploy.js",
+    "deploy": "yarn build:script && scripts/deploy.js $npm_package_config_name"
   },
   "devDependencies": {
     "@types/gh-pages": "^2.0.1",
