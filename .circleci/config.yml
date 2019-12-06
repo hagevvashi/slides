@@ -1,0 +1,91 @@
+version: 2.1
+executors:
+  default:
+    working_directory: ~/workspace
+    docker:
+      - image: circleci/node:12.13.1
+
+commands:
+  restore_npm:
+    steps:
+      # Download and cache dependencies
+      - restore_cache:
+          name: Restore npm dependencies
+          keys:
+            - v1-dependencies-{{ checksum "yarn.lock" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+  save_npm:
+    steps:
+      - save_cache:
+          name: Cache npm dependencies
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "yarn.lock" }}
+
+jobs:
+  setup:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - restore_npm
+      - run:
+          name: Install dependencies
+          command: yarn install
+      - save_npm
+
+  script_type_check:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - restore_npm
+      - run:
+          name: Script Type Check
+          command: yarn typecheck
+
+  build:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - restore_npm
+      - run:
+          name: Run build
+          command: yarn build
+      - persist_to_workspace:
+          root: ./
+          paths:
+            - slides
+
+  deploy:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - restore_npm
+      - attach_workspace:
+          at: ./
+      - run:
+          name: Run deploy
+          command: yarn deploy
+
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - setup
+      - script_type_check
+      - build:
+          filters:
+            branches:
+              only: master
+          requires:
+            - setup
+      - deploy:
+          filters:
+            branches:
+              only: master
+          requires:
+            - build
