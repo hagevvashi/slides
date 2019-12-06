@@ -68,6 +68,11 @@ jobs:
       - attach_workspace:
           at: ./
       - run:
+          name: git config
+          command: |
+            git config --global user.email "azawakhh@gmail.com"
+            git config --global user.name "azawakh"
+      - run:
           name: Run deploy
           command: yarn deploy
 
@@ -80,9 +85,6 @@ workflows:
           requires:
             - setup
       - build:
-          filters:
-            branches:
-              only: master
           requires:
             - script_type_check
       - deploy:
