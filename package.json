@@ -7,7 +7,7 @@
   "author": "azawakh <azawakhh@gmail.com>",
   "license": "MIT",
   "config": {
-    "name": "slides/story-about-twsh"
+    "name": "slides/introduction-to-circleci"
   },
   "scripts": {
     "typecheck": "tsc -p . --noEmit",
