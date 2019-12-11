@@ -7,7 +7,7 @@
   "author": "azawakh <azawakhh@gmail.com>",
   "license": "MIT",
   "config": {
-    "name": "slides/introduction-to-circleci"
+    "name": "slides/readable-code-chapter14"
   },
   "scripts": {
     "typecheck": "tsc -p . --noEmit",
