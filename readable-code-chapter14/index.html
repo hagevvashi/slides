@@ -1,0 +1,237 @@
+<!DOCTYPE html><html lang="en"><head><meta http-equiv="Content-type" content="text/html; charset=utf-8"><meta name="theme-color" content="#3498db"><meta name="viewport" content="width=device-width,initial-scale=1"><title>readable-code-chapter14</title><meta property="og:title" content="readable-code-chapter14"><meta property="og:type" content="article"><meta property="og:site_name" content="azawakh's slide"><link href="vendor.7.cd27f931f074e5459054.css" rel="stylesheet"><link href="main.4.4fda9e74885b380341b9.css" rel="stylesheet"></head><body><div id="root"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" class="btn-sidebar" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path></svg><article id="webslides"><section class="aligncenter title"><h1>Testing and Readability</h1></section><section class="aligncenter profile"><section><h2>💪<!-- --> ME<!-- --> 💪</h2><br><div class="profile"><img src="https://s.gravatar.com/avatar/83e73331a769d5af2859681fbec1d9b2?size=200&amp;default=retro" alt="profile" class="profile-avatar"><h4 class="profile-name">Ota Naoto</h4><div class="sns-list"><div class="sns-list"><a href="https://twitter.com/azawakh_d" target="_blank"><i class="fab fa-twitter"></i></a><a href="https://github.com/azawakh" target="_blank"><i class="fab fa-github"></i></a></div></div><div class="profile-info"><p>A frontend engineer</p><p>Kakaku.com, Inc</p><p><img src="https://tblg.k-img.com/images/restaurant/logo/logo_tabelog_white.svg?1547477433" alt="Tabelog"></p></div></div></section></section><section class="aligncenter title"><h2>Make Tests Easy to Read and Maintain</h2></section><section class="aligncenter"><h2>KEY IDEA</h2><blockquote><p>Test code should be readable so that other coders are comfortable changing or adding tests.</p></blockquote></section><section class="aligncenter"><blockquote><p>Other coders will often look at the test code as unofficial documentation of how the real code works and should be used.</p><br>テストコードというのは「本物のコードの動作と使い方を示した非公式的な文書」だと考えるプログラマもいるほどである</blockquote></section><section class="aligncenter"><h3>When test code is big and scary, here&#x27;s what happens:</h3></section><section class="aligncenter"><ul><li>Coders are afraid to modify the real code.</li></ul><p>Oh, we don&#x27;t want to mess with that code-updating all the tests would be a nightmare!</p></section><section class="aligncenter"><ul><li>Coders don&#x27;t add new tests when they add new code.</li></ul><p>Over time, less and less of your module is tested, and you are no longer confident that it all works.</p></section><section class="aligncenter title"><h2>What&#x27;s Wrong wiht This Test</h2></section><section class="aligncenter"><h3>function declaration:</h3><pre><code class="language-cpp">// Sort &#x27;docs&#x27; by score (highest first) and remove negative-scored documents.
+void SortAndFilterDocs(vector&lt;ScoredDocument&gt;* docs);
+</code></pre></section><section class="aligncenter"><h3>The test for this function originally looked something like:</h3><pre><code class="language-cpp">
+void Test1() {
+    vector&lt;ScoredDocument&gt; docs;
+    docs.resize(5);
+    docs[0].url = &quot;http://example.com&quot;;
+    docs[0].score = -5.0;
+    docs[1].url = &quot;http://example.com&quot;;
+    docs[1].score = 1;
+    docs[2].url = &quot;http://example.com&quot;;
+    docs[2].score = 4;
+    docs[3].url = &quot;http://example.com&quot;;
+    docs[3].score = -99998.7;
+    docs[4].url = &quot;http://example.com&quot;;
+    docs[4].score = 3.0;
+
+    SortAndFilterDocs(&amp;docs);
+
+    assert(docs.size() == 3);
+    assert(docs[0].score == 4);
+    assert(docs[1].score == 3.0);
+    assert(docs[2].score == 1);
+}
+
+</code></pre></section><section class="aligncenter"><h2>😇</h2></section><section class="aligncenter"><h3>There are at least eight different problems with this test code</h3></section><section class="aligncenter title"><h2>Making This Test More Readable</h2></section><section class="aligncenter"><h3>hide less important details from the user, so that more important details are most prominent</h3></section><section class="aligncenter"><p>The examples below are not about what this test is doing at a high level</p><br><ul><li>setting up a <code>vector&lt;ScoredDocument&gt;</code></li><li>url, score, and docs[], which are just details about how the underlying C++ objects are set up</li></ul></section><section class="aligncenter"><h3>As a first step in cleaning this up, we could create a helper function like:</h3><pre><code class="language-cpp">void MakeScoredDoc(ScoredDocument* sd, double score, string url) {
+    sd-&gt;score = score;
+    sd-&gt;url = url;
+}
+</code></pre></section><section class="aligncenter"><h3>Using this function, our test code becomes slightly more compact:</h3><pre><code class="language-cpp">void Test1() {
+    vector&lt;ScoredDocument&gt; docs;
+    docs.resize(5);
+    MakeScoredDoc(&amp;docs[0], -5.0, &quot;http://example.com&quot;);
+    MakeScoredDoc(&amp;docs[1], 1, &quot;http://example.com&quot;);
+    MakeScoredDoc(&amp;docs[2], 4, &quot;http://example.com&quot;);
+    MakeScoredDoc(&amp;docs[3], -99998.7, &quot;http://example.com&quot;);
+    ...
+}
+</code></pre></section><section class="aligncenter"><h3>But this isn&#x27;t good enough</h3></section><section class="aligncenter"><p>there are still unimportant details in our face</p></section><section class="aligncenter"><div class="aligncenter" style="width:50%"><h4>for instance</h4><ul><li>the parameter &quot;<a href="http://example.com">http://example.com</a>&quot; is just an eyesore.<blockquote><p>It&#x27;s always the same, and the exact URL doesn&#x27;t even matter - it&#x27;s just needed to fill out a valid ScoredDocument.</p></blockquote></li><li>docs.resize(5) and &amp;docs<!-- -->[0]<!-- -->, &amp;docs<!-- -->[1]<!-- -->, and so on</li></ul></div></section><section class="aligncenter"><h3>Let&#x27;s change our helper function to do more work for us and call it AddScoredDoc():</h3><pre><code class="language-cpp">void AddScoredDoc(vector&lt;ScoredDocument&gt;&amp; docs, double score) {
+    ScoredDocument sd;
+    sd.score = score;
+    sd.url = &quot;http://example.com&quot;;
+    docs.push_back(sd);
+}
+</code></pre></section><section class="aligncenter"><h3>Using this function, our test code is even more compact:</h3><pre><code class="language-cpp">void Test1() {
+    vector&lt;ScoredDocument&gt; docs;
+    AddScoredDoc(docs, -5.0);
+    AddScoredDoc(docs, 1);
+    AddScoredDoc(docs, 4);
+    AddScoredDoc(docs, -99998.7);
+    ...
+}
+</code></pre></section><section class="aligncenter"><h3>still doesn&#x27;t pass the &quot;highly readable and writable&quot; test</h3></section><section class="aligncenter"><p>If you wanted to add another test with a new set of scored docs, it would require a lot of copying and pasting.</p></section><section class="aligncenter"><p>So how do we go about improving it further?</p></section><section class="aligncenter"><h2>Creating the Minimal Test Statement</h2></section><section class="aligncenter"><p>To improve this test code, let&#x27;s use the technique from Chapter 12, Turning Thoughts into Code.</p></section><section class="aligncenter"><h3>Let&#x27;s describe what our test is trying to do in plain English:</h3></section><section class="aligncenter"><blockquote><p>We have a list of documents whose scores are<!-- --> [-5, 1, 4, -99998.7, 3]<!-- -->.</p><br>AfterSortAndFilterDocs(), the remaining documents should have scores of [4, 3, 1], in that order.</blockquote></section><section class="aligncenter"><p>As you can see, nowhere in that description did we mention a <code>vector&lt;ScoredDocument&gt;</code>.</p></section><section class="aligncenter"><p>The array of scores is what&#x27;s most important here.</p></section><section class="aligncenter"><h3>Ideally, our test code would look something like:</h3><pre><code class="language-cpp">CheckScoresBeforeAfter(&quot;-5, 1, 4, -99998.7, 3&quot;,  &quot;4, 3, 1&quot;);
+</code></pre></section><section class="aligncenter"><h4>We were able to boil the essence of this test down to one line of code!😂</h4><ul><li>The essence of most tests boils down to <em>for this input/situation, expect this behavior/output</em>.</li><li>In many cases, this goal can be expressed in just one line.</li><li>Makes it very easy to add more test cases.</li></ul></section><section class="aligncenter"><h2>Implementing Custom &quot;Minilanguages&quot;</h2></section><section class="aligncenter"><blockquote><p>Notice that CheckScoresBeforeAfter() takes two string arguments that describe the array of scores.</p></blockquote><blockquote><p>In later versions of C++, you can pass in array literals like this:</p></blockquote><pre><code class="language-cpp">CheckScoresBeforeAfter({-5, 1, 4, -99998.7, 3}, {4, 3, 1});
+</code></pre><blockquote><p>Because we couldn&#x27;t do this at the time, we put the scores inside a string, separated by commas.For this approach to work, CheckScoresBeforeAfter() is going to have to parse those string arguments.</p></blockquote><blockquote><p>In general, defining a custom minilanguage can be a powerful way to express a lot of information in a small amount of space.Other examples include printf() and regular expression libraries.</p></blockquote><blockquote><p>In this case, writing some helper functions to parse a comma-separated list of numbers shouldn&#x27;t be too hard.</p></blockquote></section><section class="aligncenter reference"><p>In general, I thought that mini-language refers to DSL. . .🤔</p></section><section class="aligncenter"><h4>Here&#x27;s what CheckScoresBeforeAfter() would look like:</h4><pre><code class="language-cpp">void CheckScoresBeforeAfter(string input, string expected_output) {
+    vector&lt;ScoredDocument&gt; docs = ScoredDocsFromString(input);
+    SortAndFilterDocs(&amp;docs);
+    string output = ScoredDocsToString(docs);
+    assert(output == expected_output);
+}
+</code></pre></section><section class="aligncenter"><h4>And for completeness, here are the helper functions that convert between string and <code>vector&lt;ScoredDocument&gt;</code>:</h4><pre><code class="language-cpp">vector&lt;ScoredDocument&gt; ScoredDocsFromString(string scores) {
+    vector&lt;ScoredDocument&gt; docs;
+
+    replace(scores.begin(), scores.end(), &#x27;,&#x27;, &#x27; &#x27;);
+
+    // Populate &#x27;docs&#x27; from a string of space-separated scores.
+    istringstream stream(scores);
+    double score;
+    while (stream &gt;&gt; score) {
+        AddScoredDoc(docs, score);
+    }
+
+    return docs;
+}
+
+string ScoredDocsToString(vector&lt;ScoredDocument&gt; docs) {
+    ostringstream stream;
+    for (int i = 0; i &lt; docs.size(); i++) {
+        if (i &gt; 0) stream &lt;&lt; &quot;, &quot;;
+        stream &lt;&lt; docs[i].score;
+    }
+
+    return stream.str();
+}
+</code></pre></section><section class="aligncenter"><p>This may seem like a lot of code at first glance, but what it lets you do is incredibly powerful.</p></section><section class="aligncenter"><p>Because you can write an entire test with just one call to CheckScoresBeforeAfter(), you&#x27;ll be inclined to add more tests (as we&#x27;ll be doing later in the chapter).</p></section><section class="aligncenter title"><h2>Making Error Messages Readable</h2></section><section class="aligncenter"><p>The preceding code was nice, but what happens when that <em>assert(output == expected_output)</em> line fails?🤔</p></section><section class="aligncenter"><p>It produces an error message like this:</p><pre><code class="language-cpp">Assertion failed: (output == expected_output),
+    function CheckScoresBeforeAfter, file test.cc, line 37.
+
+</code></pre></section><section class="aligncenter"><p>Obviously, if you ever saw this error, you&#x27;d wonder, <em>What were the values of output and expected_output?🤔</em></p></section><section class="aligncenter"><h2>Using Better Versions of assert()</h2></section><section class="aligncenter"><p>Fortunately, most languages and libraries have more sophisticated versions of assert() you can use. So instead of writing:</p><pre><code class="language-cpp">assert(output == expected_output);
+</code></pre><p>you could use the Boost C++ library:</p><pre><code class="language-cpp">BOOST_REQUIRE_EQUAL(output, expected_output)
+</code></pre></section><section class="aligncenter"><h3>Now, if the test fails, you get a more detailed message like:</h3><br><pre><code class="language-bash">test.cc(37): fatal error in &quot;CheckScoresBeforeAfter&quot;: critical check
+    output == expected_output failed [&quot;1, 3, 4&quot; != &quot;4, 3, 1&quot;]
+</code></pre><p>which is much more helpful.</p></section><section class="aligncenter reference"><img src="4136fffc8406df25f2c8b98ab265e4b8.webp"></section><section class="aligncenter reference"><h3>power-assert</h3><br><blockquote><p><a href="https://github.com/power-assert-js/power-assert">https://github.com/power-assert-js/power-assert</a></p></blockquote><pre><code class="language-bash">  $ $(npm bin)/mocha --require intelli-espower-loader path/to/test/mocha_node.js
+
+
+  Array
+    #indexOf()
+      1) should return index when the value is present
+      2) should return -1 when the value is not present
+
+  various types
+    3) demo
+
+
+  0 passing (43ms)
+  3 failing
+
+  1) Array #indexOf() should return index when the value is present:
+
+      AssertionError:   # test/example2.js:13
+
+  assert(ary.indexOf(zero) === two)
+         |   |       |     |   |
+         |   |       |     |   2
+         |   -1      0     false
+         [1,2,3]
+
+  [number] two
+  =&gt; 2
+  [number] ary.indexOf(zero)
+  =&gt; -1
+
+      + expected - actual
+
+      -false
+      +true
+
+      at Context.it (test/example2.js:13:13)
+
+  2) Array #indexOf() should return -1 when the value is not present:
+
+      AssertionError: THIS IS AN ASSERTION MESSAGE   # test/example2.js:17
+
+  assert.ok(ary.indexOf(two) === minusOne, &#x27;THIS IS AN ASSERTION MESSAGE&#x27;)
+            |   |       |    |   |
+            |   |       |    |   -1
+            |   1       2    false
+            [1,2,3]
+
+  [number] minusOne
+  =&gt; -1
+  [number] ary.indexOf(two)
+  =&gt; 1
+
+      + expected - actual
+
+      -false
+      +true
+
+      at Context.it (test/example2.js:17:20)
+
+  3) various types demo:
+
+      AssertionError:   # test/example2.js:43
+
+  assert(types[index].name === bob.name)
+         |    ||      |    |   |   |
+         |    ||      |    |   |   &quot;bob&quot;
+         |    ||      |    |   Person{name:&quot;bob&quot;,age:5}
+         |    ||      |    false
+         |    |11     &quot;alice&quot;
+         |    Person{name:&quot;alice&quot;,age:3}
+         [&quot;string&quot;,98.6,true,false,null,undefined,#Array#,#Object#,NaN,Infinity,/^not/,#Person#]
+
+  --- [string] bob.name
+  +++ [string] types[index].name
+  @@ -1,3 +1,5 @@
+  -bob
+  +alice
+
+
+      + expected - actual
+
+      -false
+      +true
+
+      at Context.it (test/example2.js:43:9)
+</code></pre></section><section class="aligncenter"><h2>Hand-Crafted Error Messages</h2></section><section class="aligncenter"><p>Using BOOST_REQUIRE_EQUAL(), we were able to get the nicer error message:</p><pre><code class="language-cpp">output == expected_output failed [&quot;1, 3, 4&quot; != &quot;4, 3, 1&quot;]
+</code></pre></section><section class="aligncenter"><p>However, this message could be improved further.</p></section><section class="aligncenter"><p>For instance, it would be useful to see the original input that triggered this failure.</p></section><section class="aligncenter"><h3>The ideal error message would be something like:</h3><br><pre><code class="language-bash">CheckScoresBeforeAfter() failed,
+  Input:           &quot;-5, 1, 4, -99998.7, 3&quot;
+  Expected Output: &quot;4, 3, 1&quot;
+  Actual Output:   &quot;1, 3, 4&quot;
+</code></pre></section><section class="aligncenter"><h3>If this is what you want, go ahead and write it!</h3><br><pre><code class="language-cpp">void CheckScoresBeforeAfter(...) {
+    ...
+    if (output != expected_output) {
+        cerr &lt;&lt; &quot;CheckScoresBeforeAfter() failed,&quot; &lt;&lt; endl;
+        cerr &lt;&lt; &quot;Input:           \&quot;&quot; &lt;&lt; input &lt;&lt; &quot;\&quot;&quot; &lt;&lt; endl;
+        cerr &lt;&lt; &quot;Expected Output: \&quot;&quot; &lt;&lt; expected_output &lt;&lt; &quot;\&quot;&quot; &lt;&lt; endl;
+        cerr &lt;&lt; &quot;Actual Output:   \&quot;&quot; &lt;&lt; output &lt;&lt; &quot;\&quot;&quot; &lt;&lt; endl;
+        abort();
+    }
+</code></pre></section><section class="aligncenter"><p>The moral of the story is that error messages should be as helpful as possible.</p></section><section class="aligncenter"><p>Sometimes, printing your own message by building a &quot;custom assert&quot; is the best way to do this.</p></section><section class="aligncenter reference"><h3>Example</h3><h4>assert-exception</h4><ul><li><a href="https://github.com/59naga/assert-exception">https://github.com/59naga/assert-exception</a></li><li><a href="https://qiita.com/59naga/items/765e8faa64b4f0defc85">https://qiita.com/59naga/items/765e8faa64b4f0defc85</a></li></ul></section><section class="aligncenter title"><h2>Choosing Good Test Inputs</h2></section><section class="aligncenter"><p>There&#x27;s an art to choosing good input values for your tests.</p></section><section class="aligncenter"><p>The ones we have right now seem a bit haphazard:</p><pre><code class="language-cpp">CheckScoresBeforeAfter(&quot;-5, 1, 4, -99998.7, 3&quot;,  &quot;4, 3, 1&quot;);
+</code></pre></section><section class="aligncenter"><p>How do we choose good input values?🤔</p></section><section class="aligncenter"><p>Good inputs should thoroughly test the code.</p></section><section class="aligncenter"><p>But they should also be simple so that they&#x27;re easy to read.</p></section><section class="aligncenter"><h2>KEY IDEA</h2><p><em>In general, you should pick the simplest set of inputs that completely exercise the code.</em></p></section><section class="aligncenter"><p>For example, suppose we had just written:</p><pre><code class="language-cpp">CheckScoresBeforeAfter(&quot;1, 2, 3&quot;, &quot;3, 2, 1&quot;);
+</code></pre></section><section class="aligncenter"><p>Although this test is simple, it doesn&#x27;t test the &quot;filter negative scores&quot; behavior of SortAndFilterDocs().</p></section><section class="aligncenter"><p>If there were a bug in that part of the code, this input wouldn&#x27;t trigger it.</p></section><section class="aligncenter"><p>On the other extreme, suppose we wrote our test like this:</p><pre><code class="language-cpp">CheckScoresBeforeAfter(&quot;123014, -1082342, 823423, 234205, -235235&quot;,
+                       &quot;823423, 234205, 123014&quot;);
+</code></pre><p>These values are needlessly complex. (And they don&#x27;t even test the code thoroughly.)</p></section><section class="aligncenter"><h2>Simplifying the Input Values</h2></section><section class="aligncenter"><p>So what can we do to improve these input values?</p><pre><code class="language-cpp">CheckScoresBeforeAfter(&quot;-5, 1, 4, -99998.7, 3&quot;,  &quot;4, 3, 1&quot;);
+</code></pre></section><section class="aligncenter"><h3>the very &quot;loud&quot; value</h3></section><section class="aligncenter"><blockquote><p>-99998.7</p></blockquote></section><section class="aligncenter"><p>That value was just meant to be &quot;any negative number,&quot;</p></section><section class="aligncenter"><h3>so a simpler value is just</h3></section><section class="aligncenter"><blockquote><p>-1</p></blockquote></section><section class="aligncenter"><p>(If -99998.7 was meant to be &quot;a very negative number,&quot; a better value would have been something crisp like -1e100.)</p></section><section class="aligncenter"><h2>KEY IDEA</h2><p><em>Prefer clean and simple test values that still get the job done.</em></p></section><section class="aligncenter"><ul><li>The other values in our test aren&#x27;t too bad, but while we&#x27;re here, we can reduce them to the simplest integers possible.</li><li>Also, only one negative value is needed to test that negative values are removed.</li></ul></section><section class="aligncenter"><p>Here&#x27;s a new version of our test:</p><pre><code class="language-cpp">CheckScoresBeforeAfter(&quot;1, 2, -1, 3&quot;, &quot;3, 2, 1&quot;);
+</code></pre></section><section class="aligncenter"><p>We&#x27;ve simplified the test values without making them any less effective.</p></section><section class="aligncenter reference"><blockquote><p>thoroughly test</p></blockquote></section><section class="aligncenter reference"><h3>What are the 7 principles of testing?</h3><br><blockquote><p>2) Exhaustive testing is impossible: Testing everything including all combinations of inputs and preconditions is not possible. So, instead of doing the exhaustive testing we can use risks and priorities to focus testing efforts. For example: In an application in one screen there are 15 input fields, each having 5 possible values, then to test all the valid combinations you would need 30 517 578 125 (515) tests. This is very unlikely that the project timescales would allow for this number of tests. So, accessing and managing risk is one of the most important activities and reason for testing in any project.</p></blockquote><br><ul><li><a href="http://tryqa.com/what-are-the-principles-of-testing/">http://tryqa.com/what-are-the-principles-of-testing/</a></li></ul></section><section class="aligncenter reference"><h3>technique of Black Box testing</h3><br><ul><li>Equivalence partitioning</li><li>Boundary Value Analysis</li></ul></section><section class="aligncenter"><h2>LARGE &quot;SMASHER&quot; TESTS</h2></section><section class="aligncenter reference"><h3>Non-functional testing includes:</h3><br><ul><li>Reliability testing</li><li>Usability testing</li><li>Efficiency testing</li><li>Maintainability testing</li><li>Portability testing</li><li>Baseline testing</li><li>Compliance testing</li><li>Documentation testing</li><li>Endurance testing</li><li>Load testing</li><li>Performance testing</li><li>Compatibility testing</li><li>Security testing</li><li>Scalability testing</li><li>Volume testing</li><li>Stress testing</li><li>Recovery testing</li><li>Internationalization testing and Localization testing</li></ul></section><section class="aligncenter"><h2>Multiple Tests of Functionality</h2></section><section class="aligncenter"><div style="display:flex;width:fit-content;margin:0 auto"><div><h4>to construct a single &quot;perfect&quot; input</h4><p>to thoroughly exercise your code</p></div><div style="display:flex;flex-direction:column;justify-content:center;margin:0 20px"><p>&lt;</p></div><div><h4>to write multiple smaller tests</h4><p>it&#x27;s often easier, more effective, and more readable</p></div></div></section><section class="aligncenter"><p>Each test should push your code in a certain direction, trying to find a particular bug.</p></section><section class="aligncenter"><p>For example, here are four tests for SortAndFilterDocs():</p><pre><code class="language-cpp">CheckScoresBeforeAfter(&quot;2, 1, 3&quot;, &quot;3, 2, 1&quot;);    // Basic sorting
+CheckScoresBeforeAfter(&quot;0, -0.1, -10&quot;, &quot;0&quot;);     // All values &lt; 0 removed
+CheckScoresBeforeAfter(&quot;1, -2, 1, -2&quot;, &quot;1, 1&quot;);  // Duplicates not a problem
+CheckScoresBeforeAfter(&quot;&quot;, &quot;&quot;);                  // Empty input OK
+</code></pre></section><section class="aligncenter"><p>There are even more tests you could write if you wanted to be extremely thorough.</p></section><section class="aligncenter"><p>Having separate test cases also makes it easier for the next person working on the code.</p></section><section class="aligncenter"><p>If someone accidentally introduces a bug, the test failure will pinpoint the specific test that failed.</p></section><section class="aligncenter title"><h2>Naming Test Functions</h2></section><section class="aligncenter"><p>Test code is typically organized into functions-one for each method and/or situation you&#x27;re testing.</p></section><section class="aligncenter"><p>For instance, the code testing <code>SortAndFilterDocs()</code> was inside a function named <code>Test1()</code>:</p><pre><code class="language-cpp">void Test1() {
+    ...
+}
+</code></pre></section><section class="aligncenter"><p>Picking a good name for a test function can seem tedious and irrelevant, but don&#x27;t resort to meaningless names like Test1(), Test2(), and the like.</p></section><section class="aligncenter"><p>Instead, you should use the name to describe details about the test.</p></section><section class="aligncenter"><p>In particular, it&#x27;s handy if the person reading the test code can quickly figure out:</p><ul><li>The class being tested (if any)</li><li>The function being tested</li><li>The situation or bug being tested</li></ul></section><section class="aligncenter"><p>A simple approach to construct a good test function name is to just concatenate that information together, possibly with a &quot;Test_&quot; prefix.</p></section><section class="aligncenter"><p>For instance, instead of naming it <code>Test1()</code>, we can use the <code>Test_&lt;FunctionName&gt;()</code> format:</p><pre><code class="language-cpp">void Test_SortAndFilterDocs() {
+    ...
+}
+</code></pre></section><section class="aligncenter"><p>Depending on how sophisticated this test is, you might consider a separate test function for each situation being tested.</p></section><section class="aligncenter"><p>You could use the <code>Test_&lt;FunctionName&gt;_&lt;Situation&gt;()</code> format:</p><pre><code class="language-cpp">void Test_SortAndFilterDocs_BasicSorting() {
+    ...
+}
+
+void Test_SortAndFilterDocs_NegativeValues() {
+    ...
+}
+
+...
+</code></pre></section><section class="aligncenter"><h4>Don&#x27;t be afraid of having a long or clunky name here.</h4></section><section class="aligncenter"><ul><li>not called throughout your codebase</li><li>effectively acting like a comment</li><li style="color:var(--color-js)">most testing frameworks will print out the name of the function where the assertion failed<ul><li>so a descriptive name is especially helpful</li></ul></li></ul></section><section class="aligncenter"><p>Note that if you&#x27;re using a testing framework, there might already be rules or conventions on how methods are named.</p></section><section class="aligncenter"><p>For instance, the Python unit test module expects test method names to start with &quot;test.&quot;</p></section><section class="aligncenter"><p>When it comes to naming helper functions in your test code,</p></section><section class="aligncenter"><p>it&#x27;s useful to highlight whether the function does any assertions itself or is just an ordinary &quot;test-unaware&quot; helper.</p></section><section class="aligncenter"><p>For instance, in this chapter, any helper function that calls assert() is named Check...().</p></section><section class="aligncenter"><p>But the function AddScoredDoc() was named just like an ordinary helper function.</p></section><section class="aligncenter reference"><p>Isn&#x27;t it easier to define in sentences if the method name is so descriptive?</p></section><section class="aligncenter reference"><p>「日本語テストメソッドについてどう思いますか？」</p><p><a href="https://www.slideshare.net/kenjikumaie/ss-25876730">https://www.slideshare.net/kenjikumaie/ss-25876730</a></p></section><section class="aligncenter reference"><p>「TDD／BDDの思想とテスティングフレームワークの関係を整理しよう」</p><p><a href="https://www.atmarkit.co.jp/ait/articles/1403/25/news033.html">https://www.atmarkit.co.jp/ait/articles/1403/25/news033.html</a></p></section><section class="aligncenter reference"><p>「RSpecしぐさ 〜歴史から学ぶRSpec〜」</p><p><a href="https://www.slideshare.net/takafumionaka/rspec-83693226">https://www.slideshare.net/takafumionaka/rspec-83693226</a></p></section><section class="aligncenter reference"><img src="4136fffc8406df25f2c8b98ab265e4b8.webp"></section><section class="aligncenter reference"><img src="b7dd0bfcfd073fa39079b4272954fdc0.webp"></section><section class="aligncenter reference"><p>I recommend you to read appendix c of translated &quot;test-driven development&quot;.</p></section><section class="aligncenter reference"><h3>Summary</h3></section><section class="aligncenter reference"><ul><li>&quot;TDD&quot; is misleading. What is the &quot;Test&quot;?</li><li>The word &quot;Test&quot; does not refer to &quot;automated&quot;, &quot;implitated&quot; or &quot;clear&quot; so-called &quot;test activities&quot; such as &quot;automated test&quot;</li><li>As a result, &quot;Test&quot; was changed to &quot;Behaviour&quot; again</li><li>Emergence of &quot;RSpec&quot;</li><li>Emergence of &quot;Cucumber&quot;<ul><li>More suitable for acceptance test</li><li>In Japan, QA Engineer often use this format in a context &quot;automated test&quot;.</li></ul></li></ul></section><section class="aligncenter title"><h2>What Was Wrong with That Test</h2></section><section class="aligncenter"><p>At the beginning of the chapter, we claimed there were at least eight things wrong with this test:</p><pre><code class="language-cpp">void Test1() {
+    vector&lt;ScoredDocument&gt; docs;
+    docs.resize(5);
+    docs[0].url = &quot;http://example.com&quot;;
+    docs[0].score = -5.0;
+    docs[1].url = &quot;http://example.com&quot;;
+    docs[1].score = 1;
+    docs[2].url = &quot;http://example.com&quot;;
+    docs[2].score = 4;
+    docs[3].url = &quot;http://example.com&quot;;
+    docs[3].score = -99998.7;
+    docs[4].url = &quot;http://example.com&quot;;
+    docs[4].score = 3.0;
+
+    SortAndFilterDocs(&amp;docs);
+
+    assert(docs.size() == 3);
+    assert(docs[0].score == 4);
+    assert(docs[1].score == 3.0);
+    assert(docs[2].score == 1);
+}
+</code></pre></section><section class="aligncenter"><p>Now that we&#x27;ve learned some techniques for writing better tests, let&#x27;s identify them:</p></section><section class="aligncenter"><h3>1. The test is very long and full of unimportant details.</h3><br><p>You can describe what this test is doing in one sentence, so the test statement shouldn&#x27;t be much longer.</p></section><section class="aligncenter"><h3>2. Adding another test isn&#x27;t easy.</h3><br><p>You&#x27;d be tempted to copy/paste/modify, which would make the code even longer and full of duplication.</p></section><section class="aligncenter"><h3>3. The test failure messages aren&#x27;t very useful.</h3><br><p>If this test fails, it will just say Assertion failed: <code>docs.size() == 3</code>, which doesn&#x27;t give you enough information to debug it further.</p></section><section class="aligncenter"><h3>4. The test tries to test everything at once.</h3><br><p>It&#x27;s trying to test both the negative filtering and the sorting functionality. It would be more readable to break this into multiple tests.</p></section><section class="aligncenter"><h3>5. The test inputs aren&#x27;t simple.</h3><br><p>In particular, the example score -99998.7 is &quot;loud&quot; and gets your attention even though there isn&#x27;t any significance to that specific value. A simpler negative value would suffice.</p></section><section class="aligncenter"><h3>6. The test inputs don&#x27;t thoroughly exercise the code.</h3><br><p>For example, it doesn&#x27;t test when thescore is 0. (Would that document be filtered or not?)</p></section><section class="aligncenter"><h3>7. It doesn&#x27;t test other extreme inputs, such as an empty input vector, a very large vector, or one with duplicate scores.</h3></section><section class="aligncenter"><h3>8. The name Test1() is meaningless - the name should describe the function or situation being tested.</h3></section><section class="aligncenter title"><h2>Test Friendly Development</h2></section><section class="aligncenter"><p>Some code is easier to test than other code.</p></section><section class="aligncenter"><p>Ideal code to test</p><ul><li>has a well-defined interface,</li><li>doesn&#x27;t have much state or other &quot;setup,&quot;</li><li>doesn’t have much hidden data to inspec.</li></ul></section><section class="aligncenter"><p>If you write your code knowing you&#x27;ll be writing a test for it later, a funny thing happens:</p></section><section class="aligncenter"><p><strong><em>you start designing your code so that it&#x27;s easy to test!</em></strong></p></section><section class="aligncenter"><p>Fortunately, coding this way also means that you create better code in general.</p></section><section class="aligncenter"><p>Test-friendly designs often lead naturally to well-organized code, with separate parts to do separate things.</p></section><section class="aligncenter"><h3>TEST-DRIVEN DEVELOPMENT</h3></section><section class="aligncenter reference"><img src="4136fffc8406df25f2c8b98ab265e4b8.webp"></section><section class="aligncenter reference"><img src="b7dd0bfcfd073fa39079b4272954fdc0.webp"></section><section class="aligncenter reference"><h4>An Introduction to &quot;test-driven development&quot;</h4><ul><li>I strongly recomend you to read just chapter 1<ul><li>key idea and essence are contained</li></ul></li><li>&quot;test-driven development&quot; is not about &quot;Testing method&quot;</li><li>I thought it is about &quot;design&quot;<ul><li>&quot;work&quot; and &quot;beutiful&quot; code</li></ul></li></ul></section><section class="aligncenter reference"><h4>by using TDD, awful codes below will never be created</h4><ul><li>The test is very long and full of unimportant details.</li><li>Adding another test isn&#x27;t easy.</li></ul></section><section class="aligncenter reference"><p>because you define the behaviour before you write the code</p></section><section class="aligncenter"><p>Of all the ways to break up a program into classes and methods, the most decoupled ones are usually the easiest to test.</p></section><section class="aligncenter"><p>On the other hand, let&#x27;s say your program is very interconnected, with many method calls between your classes and lots of parameters for all the methods.</p></section><section class="aligncenter"><p>Not only would that program have hard-to-understand code, but the test code would be just as ugly, and hard to read and write.</p></section><section class="aligncenter"><p>Having lots of &quot;external&quot; components (global variables that need to be initialized, libraries or config files that need to be loaded, etc.) also makes it more annoying to write tests.</p></section><section class="aligncenter reference"><h3>Software Structure Metrics Based on Information Flow</h3><p><a href="https://www.academia.edu/26311925/Software_Structure_Metrics_Based_on_Information_Flow">https://www.academia.edu/26311925/Software_Structure_Metrics_Based_on_Information_Flow</a></p></section><section class="aligncenter reference"><ul><li>First researchers of &quot;fan-out&quot; and &quot;fan-in&quot;<ul><li>Sallie Henry, Dennis Kafura</li></ul></li><li>(fan-in*fan-out)^2 is larger, the method or module contains more bugs</li></ul></section><section class="aligncenter reference"><p>It is said that a high &quot;fan in&quot; and a low &quot;fan out&quot; are good, but it is very dangerous if both numbers are high.</p></section><section class="aligncenter reference"><h4>fan-out</h4><ul><li>fan-out of procedure A is an addition of the number of local flow from A and data structures modified by A<ul><li>local flow<ol><li>A calls B</li><li>A returns a value by the call of B and B uses that value</li><li>C calles B with the value A returns</li></ol></li><li>adds the number of these flow and the number of the data structure modified by A</li></ul></li></ul></section><section class="aligncenter reference"><h4>fan-in</h4><ul><li>fan in of procedure A is an addition of the number of local flow against A and data structures from which A gets information<ul><li>fan-in is a good indicator of reusability</li></ul></li></ul></section><section class="aligncenter"><p>Generally, if you&#x27;re designing your code and realize, Hmm, this is going to be a nightmare to test, that&#x27;s a good reason to stop and rethink the design.</p></section><section class="aligncenter"><p>Table 14-1 shows some typical testing and design problems.</p></section><section class="aligncenter"><h3>TABLE 14-1. Characteristics of less testable code, and how this leads to problems with design</h3><table><thead><tr><th>Characteristic</th><th>Testability problem</th><th>Design problem</th></tr></thead><tbody><tr><td>Use of global variables</td><td>All the global state needs to reset for every test (otherwise, different tests can interfere with each other).</td><td>Hard to understand which functions have what side effects. Can&#x27;t think about each function in isolation; need to consider the whole program to understand if everything works.</td></tr><tr><td>Code depends on a lot of external components</td><td><span style="color:var(--color-js)">It&#x27;s harder to write any tests because there&#x27;s so much scaffolding to set up first. Tests are less fun to write, so people avoid writing tests.</span></td><td>System is more likely to fail when one of the dependencies fails. It&#x27;s harder to understand what impact any given change might make. It&#x27;s harder to refactor classes. System has more failure modes and recovery paths to think about.</td></tr><tr><td>Code has nondeterministic behavior</td><td>Tests are flaky and unreliable. Tests that occasionally fail end up being ignored.</td><td>The program is more likely to have race conditions or other nonreproducible bugs. The program is harder to reason about. Bugs in production are very difficult to track down and fix.</td></tr></tbody></table></section><section class="aligncenter"><p>On the other hand, if you have a design that&#x27;s easy to write tests for, that&#x27;s a good sign.</p></section><section class="aligncenter"><p>Table 14-2 lists some beneficial testing and design characteristics.</p></section><section class="aligncenter"><h3>TABLE 14-2. Characteristics of more testable code, and how this leads to good design</h3><table><thead><tr><th>Characteristic</th><th>Testability benefit</th><th>Design benefit</th></tr></thead><tbody><tr><td><span style="color:var(--color-js)">Classes have little or no internal state</span></td><td>Tests are easier to write because there is less setup needed to test a method and less hidden state to inspect.</td><td>Classes with less state are simpler and easier to understand.</td></tr><tr><td>Classes/functions only do one thing</td><td>Fewer test cases are required to fully test it.</td><td>Smaller/simpler components are more modular, and the system is generally more decoupled.</td></tr><tr><td>Classes depend on few other classes;high decoupling</td><td>Each class can be tested independently(much easier than testing multiple classes at once).</td><td>System can be developed in parallel. Classes can be easily modified or removed without disrupting the rest of the system.</td></tr><tr><td>Functions have simple, well-defined interfaces</td><td>There are well-defined behaviors to test for. Simple interfaces take less work to test.</td><td>Interfaces are easier for coders to learn and are more likely to be reused.</td></tr></tbody></table></section><section class="aligncenter title"><h2>Going Too Far</h2></section><section class="aligncenter"><p>It&#x27;s also possible to focus too much on testing.</p></section><section class="aligncenter"><p>Here are some examples:</p></section><section class="aligncenter"><h3>Sacrificing the readability of your real code, for the sake of enabling tests.</h3></section><section class="aligncenter"><p>Designing your real code to be testable should be a win-win situation:</p></section><section class="aligncenter"><ul><li>your real code becomes simpler and more decoupled</li><li>your tests are easy to write</li></ul></section><section class="aligncenter"><p>But if you have to insert lots of ugly plumbing into your real code just so you can test it, something&#x27;s wrong.</p></section><section class="aligncenter"><h3>Being obsessive about 100% test coverage.</h3></section><section class="aligncenter"><p>Testing the first 90% of your code is often less work than testing that last 10%.</p></section><section class="aligncenter"><p>That last 10% might involve user interface, or dumb error cases, where the cost of the bug isn&#x27;t really that high and the effort to test it just isn&#x27;t worth it.</p></section><section class="aligncenter"><p>The truth is that you&#x27;ll never get 100% coverage anyhow.</p></section><section class="aligncenter"><p>If it&#x27;s not a missed bug, it might be a missed feature or you might not realize that the spec should be changed.</p></section><section class="aligncenter"><p>Depending on how costly your bugs are, there&#x27;s a sweet spot of how much development time it&#x27;s worth spending on test code.</p></section><section class="aligncenter"><p>If you’re building a website prototype, it might no tbe worth writing any test code at all.</p></section><section class="aligncenter"><p>On the other hand, if you&#x27;re writing a controller for a spaceship or medical device, testing is probably your main focus.</p></section><section class="aligncenter"><h3>Letting testing get in the way of product development.</h3></section><section class="aligncenter"><p>We&#x27;ve seen situations where testing, which should be just one aspect of a project, dominates the whole project.</p></section><section class="aligncenter"><p>Testing becomes some sort of god to be appeased, and coders just go through the rituals and motions without realizing that their precious engineering time might be better spent elsewhere.</p></section><section class="aligncenter title"><h2>Summary</h2></section><section class="aligncenter"><p>In test code, readability is still very important.</p></section><section class="aligncenter"><p>If your tests are very readable,</p><p>they will in turn be very writable,</p><p>so people will add more of them.😎</p></section><section class="aligncenter"><p>Also, if you design your real code to be easy to test, your code will have a better design overall.</p></section><section class="aligncenter"><p>Here are specific points on how to improve your tests:</p></section><section class="aligncenter"><ul><li>The top level of each test should be as concise as possible; ideally, each test input/output can be described in one line of code.</li><li>If your test fails, it should emit an error message that makes the bug easy to track down and fix.</li><li>Use the simplest test inputs that completely exercise your code.</li><li>Give your test functions a fully descriptive name so it&#x27;s clear what each is testing. Instead of Test1(), use a name like <code>Test_&lt;FunctionName&gt;_&lt;Situation&gt;</code>.</li></ul></section><section class="aligncenter"><p>And above all, make it easy to modify and add new tests.</p></section><section class="aligncenter hiring"><header style="border-bottom:solid 1px;border-color:var(--color-yellow);color:var(--color-yellow);text-align:left;font-size:xx-large">At Last</header><div style="display:flex;flex-direction:row;align-items:center;min-height:70rem"><div style="flex-grow:1"><img src="4d171775847180d4d1cfeca6028026c7.webp"></div><div style="flex-grow:1"><h2 style="color:var(--color-red);font-size:5.4rem">We are hiring!</h2><div style="margin:7rem 0"><p>WEB、アプリ、フロントエンドエンジニアなど様々な職種でエンジニア募集中です！</p><p>カジュアル面談（オフィス訪問）歓迎です！</p><p><a href="https://www.wantedly.com/projects/254221">WANTEDLYはこちら！</a></p></div></div></div><div style="position:absolute;bottom:54px;right:0;z-index:4;padding:0 2.4rem 0 0;background:rgba(255,255,255,1)"><img src="de802ae92aae61304904ae8c23ca8d9f.webp" style="width:inherit"></div><footer style="text-align:left;border-top:solid 1px;border-color:var(--color-yellow)">Copyright © Kakaku.com Inc. All Rights Reserved.</footer></section><section class="aligncenter end"><h1>Thanks for all</h1><br><div class="sns-list sns-list-end"><a href="https://twitter.com/azawakh_d" target="_blank"><i class="fab fa-twitter"></i></a><a href="https://github.com/azawakh" target="_blank"><i class="fab fa-github"></i></a></div></section></article></div><script type="text/javascript" src="runtime.846014ac7f7fd42af48e.bundle.js"></script><script type="text/javascript" src="vendor.7.cd27f931f074e5459054.bundle.js"></script><script type="text/javascript" src="main.4.4fda9e74885b380341b9.bundle.js"></script></body></html>
