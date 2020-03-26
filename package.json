@@ -1,10 +1,10 @@
 {
   "name": "slides",
   "version": "0.0.0",
-  "description": "azawakh's slide repository",
+  "description": "naoto-ota's slide repository",
   "main": "index.js",
-  "repository": "https://github.com/azawakh/slides",
-  "author": "azawakh <azawakhh@gmail.com>",
+  "repository": "https://github.com/naoto-ota/slides",
+  "author": "naoto-ota <naoto.ota1@gmail.com>",
   "license": "MIT",
   "config": {
     "name": "slides/readable-code-chapter14"
