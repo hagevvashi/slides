@@ -30,7 +30,7 @@
     "@fortawesome/fontawesome-free": "^5.11.2",
     "fs-extra": "^6.0.1",
     "fusuma": "^1.15.0",
-    "remark-parse": "^6.0.3",
+    "remark-parse": "^8.0.0",
     "rollup": "^1.27.6"
   }
 }
