@@ -22,7 +22,7 @@
     "gh-pages": "2.2.0",
     "husky": "4.2.5",
     "prettier": "1.19.1",
-    "pretty-quick": "1.11.1",
+    "pretty-quick": "2.0.1",
     "typescript": "3.7.4"
   },
   "dependencies": {
