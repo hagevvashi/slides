@@ -19,7 +19,7 @@
   "devDependencies": {
     "@types/gh-pages": "2.0.1",
     "@types/node": "12.12.37",
-    "gh-pages": "2.2.0",
+    "gh-pages": "3.0.0",
     "husky": "4.2.5",
     "prettier": "1.19.1",
     "pretty-quick": "2.0.1",
