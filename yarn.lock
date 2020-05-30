@@ -1025,10 +1025,10 @@
   resolved "https://registry.yarnpkg.com/@types/color-name/-/color-name-1.1.1.tgz#1c1261bbeaa10a8055bbc5d8ab84b7b2afc846a0"
   integrity sha512-rr+OQyAjxze7GgWrSaJwydHStIhHq2lvY3BOC2Mj7KnzI7XK0Uw1TOOdI9lDoajEbSWLiYgoo4f1R51erQfhPQ==
 
-"@types/gh-pages@2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@types/gh-pages/-/gh-pages-2.0.1.tgz#d2a25eb84375053c713cddf304c28bed6ca38388"
-  integrity sha512-Z5CJlEg6xTfLLChYb4/UpYLcN9djv2HzTDz8XJ9I8tasCw8ybkGoA2x+CBU9gyRvi1VeBmdLfcGrEDVYm1L36g==
+"@types/gh-pages@2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@types/gh-pages/-/gh-pages-2.2.0.tgz#d09aea23748022b8f6ce63deabe356c616323ece"
+  integrity sha512-0eNg5KwF/TUGipByYFKT676MEZrebe4HkwYUdqDU6itFoFFGqIr12qZr5s2sOqwvkN36vPr2zXuYYl/UVWGbKQ==
 
 "@types/invariant@^2.2.29":
   version "2.2.30"
