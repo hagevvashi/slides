@@ -21,7 +21,7 @@
     "@types/node": "12.12.37",
     "gh-pages": "3.0.0",
     "husky": "4.2.5",
-    "prettier": "1.19.1",
+    "prettier": "2.0.5",
     "pretty-quick": "2.0.1",
     "typescript": "3.8.3"
   },
