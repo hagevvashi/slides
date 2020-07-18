@@ -7,7 +7,7 @@
   "author": "hagevvashi <hagevvashi@gmail.com>",
   "license": "MIT",
   "config": {
-    "name": "slides/readable-code-chapter14"
+    "name": "slides/story-about-twsh"
   },
   "scripts": {
     "typecheck": "tsc -p . --noEmit",
