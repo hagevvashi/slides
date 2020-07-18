@@ -70,7 +70,7 @@ jobs:
       - run:
           name: git config
           command: |
-            git config --global user.email "hagevvashih@gmail.com"
+            git config --global user.email "hagevvashi@gmail.com"
             git config --global user.name "hagevvashi"
       - run:
           name: Run deploy
