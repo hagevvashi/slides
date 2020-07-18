@@ -6,7 +6,7 @@
 <br />
 
 <div class="profile">
-  <img src="https://s.gravatar.com/avatar/ec49b9f7128ec5e8806823e856fac6ba?size=200&default=retro" alt="profile" class="profile-avatar" />
+  <img src="https://s.gravatar.com/avatar/949e08dcc61f089a8f463f312ccd325c?size=200&default=retro" alt="profile" class="profile-avatar" />
   <h4 class="profile-name">Ota Naoto</h4>
   <div class="sns-list">
     <div class="sns-list">
