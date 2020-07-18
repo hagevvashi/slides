@@ -1,6 +1,6 @@
 module.exports = {
   meta: {
-    siteName: "azawakh's slides",
+    siteName: "hagevvashi's slides",
     sns: ["twitter"]
   }
 };

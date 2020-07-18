@@ -70,8 +70,8 @@ jobs:
       - run:
           name: git config
           command: |
-            git config --global user.email "azawakhh@gmail.com"
-            git config --global user.name "azawakh"
+            git config --global user.email "hagevvashih@gmail.com"
+            git config --global user.name "hagevvashi"
       - run:
           name: Run deploy
           command: yarn deploy

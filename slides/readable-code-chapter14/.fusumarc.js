@@ -1,8 +1,8 @@
 module.exports = {
   meta: {
-    author: "azawakh",
-    siteName: "azawakh's slide",
-    repositoryUrl: "https://github.com/azawakh/slides",
+    author: "hagevvashi",
+    siteName: "hagevvashi's slide",
+    repositoryUrl: "https://github.com/hagevvashi/slides",
     sns: ["twitter"],
     name: "readable-code-chapter14"
   },
