@@ -29,7 +29,7 @@
     "@babel/core": "^7.7.4",
     "@fortawesome/fontawesome-free": "^5.11.2",
     "fs-extra": "^9.0.0",
-    "fusuma": "^1.15.0",
+    "fusuma": "^2.0.0",
     "remark-parse": "^8.0.0",
     "rollup": "^2.0.0"
   }
